@@ -6,7 +6,6 @@ class GogSpider(scrapy.Spider):
     page = 1
 
     def parse(self, response):
-        pages = int(response.css('button.small-pagination__item span::text').get())
 
         for i in response.css('div.product-tile__info'):
             title = i.css('.product-tile__title::attr(title)').get()
@@ -24,6 +23,6 @@ class GogSpider(scrapy.Spider):
             }
 
 
-        if self.page < pages:
+        if self.page < 20:
             self.page += 1
             yield response.follow('https://www.gog.com/en/games?tags=indie&page=' + str(self.page), self.parse)    

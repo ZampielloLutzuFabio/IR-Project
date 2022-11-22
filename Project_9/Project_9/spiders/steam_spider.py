@@ -1,21 +1,33 @@
 import scrapy
 
-class BasicSpider(scrapy.Spider):
-    name = 'basic'
-    
-    start_urls = ['https://quotes.toscrape.com']
-
+class SteamSpider(scrapy.Spider):
+    name = 'steam_spider'
+    page = 1
+    start_urls = ['https://store.steampowered.com/search/?tags=492?&page=' + str(page)]
     def parse(self, response):
-        for quote in response.css('div.quote'):
-            author = quote.css('.author::text').get()
-            text = quote.css('.text::text').get()
-            tags = quote.css('.tag::text').getall()
+        
+        for i in response.css('.search_result_row'):
+            title = i.css('.title::text').get()
+            # author = i.css('.game_author a::text').get()
+            # genre = i.css('.game_genre::text').get()
+            platform = i.css('.platform_img::attr(class)').getall()
+            # price = i.css('.price_value::text').get()
+            # sale = i.css('.sale_tag::text').get()
+            # href = i.css('.game_title a::attr(href)').get()
 
-            yield {
-                'author' : author,
-                'quote_text' : text,
-                'tags' : tags
-                }
-        next_page = response.css('.next a::attr(href)').get()
-        if next_page is not None:
-            yield response.follow(next_page, self.parse)
+            for a in range(len(platform)):
+                platform[a] = platform[a].replace("platform_img ", "").replace("win", "Windows").replace("mac", "macOS").replace("linux", "Linux")
+
+            yield{
+                'title': title,
+                # 'author': author, 
+                # 'genre': genre,
+                'platform': platform,
+                # 'price' : price,
+                # 'sale' : sale,
+                # 'href': href
+            }
+            
+        self.page += 1
+        if self.page < 10:
+            yield response.follow('https://store.steampowered.com/search/?tags=492?&page=' + str(self.page), self.parse)    
