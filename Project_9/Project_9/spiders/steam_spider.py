@@ -4,9 +4,11 @@ class SteamSpider(scrapy.Spider):
     def parse_inside(self, response):
         item = response.meta['item']
         item['author'] = response.css('.dev_row a::text').get()
-        item['genre'] = response.css(".popular_tags a::text").getall()
+        item['genre'] = response.css(".popular_tags a[style='display: none;']::text").getall()
         for i in range(len(item['genre'])):
-            item['genre'][i] = item['genre'][i].strip() 
+            item['genre'][i] = item['genre'][i].strip()
+
+        item['genre'].remove("Indie")
         return item
     
     name = 'steam_spider'
@@ -15,6 +17,9 @@ class SteamSpider(scrapy.Spider):
     def parse(self, response):
         
         for i in response.css('.search_result_row'):
+            if i.css('::attr(bundleid)').get() is not None:
+                continue
+
             title = i.css('.title::text').get()
             
             platform = i.css('.platform_img::attr(class)').getall()
