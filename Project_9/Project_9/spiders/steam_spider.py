@@ -4,7 +4,7 @@ class SteamSpider(scrapy.Spider):
     def parse_inside(self, response):
         item = response.meta['item']
         item['author'] = response.css('.dev_row a::text').get()
-        item['genre'] = response.css(".popular_tags a[style='display: none;']::text").getall()
+        item['genre'] = response.css(".popular_tags a::text").getall()
         for i in range(len(item['genre'])):
             item['genre'][i] = item['genre'][i].strip()
 
