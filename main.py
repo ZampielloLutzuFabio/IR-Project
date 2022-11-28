@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from urllib.request import urlopen
+import json
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+print("Enter title")
+title = input()
+connection = urlopen('http://localhost:8983/solr/IndieGames/select?indent=true&q.op=OR&q=' + str(title))
+response = json.load(connection)
+print(response['response']['numFound'], "documents found.")
 
+# Print the name of each document.
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+for document in response['response']['docs']:
+  print("Game =", document['platform'])

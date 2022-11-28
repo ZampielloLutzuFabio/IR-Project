@@ -9,6 +9,9 @@ class SteamSpider(scrapy.Spider):
         else:
             item['price'] = response.css('.game_purchase_price.price::text').get().strip()
 
+        if item['price'] is None:
+            item['price'] = 'free'
+
         item['author'] = response.css('.dev_row a::text').get()
         item['genre'] = response.css(".popular_tags a::text").getall()
         for i in range(len(item['genre'])):

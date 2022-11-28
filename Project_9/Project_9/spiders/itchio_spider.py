@@ -12,6 +12,8 @@ class ItchioSpider(scrapy.Spider):
             genre = i.css('.game_genre::text').get()
             platform = i.css('.game_platform > span::attr(title)').getall()
             price = i.css('.price_value::text').get()
+            if price is None:
+                price = 'free'
             sale = i.css('.sale_tag::text').get()
             href = i.css('.game_title a::attr(href)').get()
 
