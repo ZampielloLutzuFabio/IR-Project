@@ -3,6 +3,12 @@ import scrapy
 class SteamSpider(scrapy.Spider):
     def parse_inside(self, response):
         item = response.meta['item']
+
+        if item['sale'] is not None:
+            item['price'] = response.css('.discount_final_price::text').get().strip()
+        else:
+            item['price'] = response.css('.game_purchase_price.price::text').get().strip()
+
         item['author'] = response.css('.dev_row a::text').get()
         item['genre'] = response.css(".popular_tags a::text").getall()
         for i in range(len(item['genre'])):
@@ -21,22 +27,15 @@ class SteamSpider(scrapy.Spider):
                 continue
 
             title = i.css('.title::text').get()
-            
-            platform = i.css('.platform_img::attr(class)').getall()
             sale = i.css('.search_discount span::text').get()
-            if sale is None:
-                price = i.css('.search_price::text').get().strip().replace(",", ".")
-            else:
-                price = i.css('.search_price strike::text').get().strip().replace("\u20ac", "").replace(",", ".")
-                price = str(round(float(price) - abs((float(sale.strip('%'))/100) * float(price)), 2)) + "\u20ac"
             href = i.css('::attr(href)').get()
+            platform = i.css('.platform_img::attr(class)').getall()
             for a in range(len(platform)):
                 platform[a] = platform[a].replace("platform_img ", "").replace("win", "Windows").replace("mac", "macOS").replace("linux", "Linux")
 
             yield scrapy.Request(href, callback=self.parse_inside, meta = {'item': {
                 'title': title, 
                 'platform': platform,
-                'price' : price,
                 'sale' : sale,
                 'href': href
             }}, cookies = {
