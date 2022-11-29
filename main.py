@@ -2,21 +2,7 @@ from urllib.request import urlopen
 from urllib.parse import urljoin, urlencode, quote
 import json
 from tkinter import *
-
-root = Tk()
-root.title('Indie Games Search Engine')
-root.geometry("800x600")
-
-my_label = Label(root, text="Search for a game...", font=("Helvetica", 14), fg="grey")
-my_label.pack()
-
-my_entry = Entry(root, font=("Helvetica", 14), fg="grey")
-my_entry.pack()
-
-my_list = Listbox(root, width=80)
-my_list.pack()
-
-root.mainloop()
+from tkinter import ttk
 
 
 def quote_custom(obj):
@@ -79,6 +65,8 @@ def search(query_array, query_filters):
   print(total_num, "games found.")
   for doc in result:
         print("Game =", doc)
+        
+  return result
 
 query = ["*"]
 filters = {
@@ -89,5 +77,52 @@ filters = {
   'platform': None
 }
 
-search(query, filters)
-# find({'title': i, 'platform': query, 'author': query, 'genre': query, 'filters': filters})
+# search(query, filters)
+
+
+root = Tk()
+root.title('Indie Games Search Engine')
+root.geometry("800x600")
+
+def update(data):
+	# Clear the listbox
+  for item in my_list.get_children():
+    my_list.delete(item['id'])
+	# Add toppings to listbox
+  for item in data:
+	  my_list.insert(parent='', index='end', iid=item['id'],text="" ,values=(item['title'],item['author'],"item['genre']","item['platform']",item['price'],item['sale']))
+
+def check(e):
+  # grab what was typed
+  typed = my_entry.get()
+	# update our listbox with selected items
+  update(search([typed], filters))				
+
+
+my_label = Label(root, text="Search for a game...", font=("Helvetica", 14), fg="grey")
+my_label.pack()
+
+my_entry = Entry(root, font=("Helvetica", 14), fg="grey")
+my_entry.pack(pady=20)
+
+
+
+
+
+
+
+my_list = ttk.Treeview(root, height=100)
+my_list['columns'] = ('Title', 'Author', 'Genre', "Platform", "Price", "Sale")
+my_list.pack(pady=20)
+
+my_list.heading("Title", text="Title")
+my_list.heading("Author", text="Author")
+my_list.heading("Genre", text="Genre")
+my_list.heading("Platform", text="Platform")
+my_list.heading("Price", text="Price")
+my_list.heading("Sale", text="Sale")
+
+# Create a binding on the entry box
+my_entry.bind("<Return>", check)
+
+root.mainloop()

@@ -31,6 +31,8 @@ class SteamSpider(scrapy.Spider):
 
             title = i.css('.title::text').get()
             sale = i.css('.search_discount span::text').get()
+            if sale is None:
+                sale = '-0%'
             href = i.css('::attr(href)').get()
             platform = i.css('.platform_img::attr(class)').getall()
             for a in range(len(platform)):

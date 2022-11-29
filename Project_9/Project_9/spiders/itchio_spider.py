@@ -15,6 +15,8 @@ class ItchioSpider(scrapy.Spider):
             if price is None:
                 price = 'free'
             sale = i.css('.sale_tag::text').get()
+            if sale is None:
+                sale = '-0%'
             href = i.css('.game_title a::attr(href)').get()
 
             for a in range(len(platform)):

@@ -26,6 +26,8 @@ class GogSpider(scrapy.Spider):
             title = i.css('.product-tile__title::attr(title)').get()
             price = i.css('price-value .final-value::text').get()
             sale = i.css('price-discount::text').get()
+            if sale is None:
+                sale = '-0%'
             href = i.css('::attr(href)').get()
 
             if price is None:
