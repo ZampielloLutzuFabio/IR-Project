@@ -1,8 +1,10 @@
+from turtle import heading
 from urllib.request import urlopen
 from urllib.parse import urljoin, urlencode, quote
 import json
-from tkinter import *
-from tkinter import ttk
+from venv import create
+import PySimpleGUI as sg
+
 
 
 def quote_custom(obj):
@@ -77,52 +79,73 @@ filters = {
   'platform': None
 }
 
-# search(query, filters)
 
 
-root = Tk()
-root.title('Indie Games Search Engine')
-root.geometry("800x600")
+# GUI 
 
-def update(data):
-	# Clear the listbox
-  for item in my_list.get_children():
-    my_list.delete(item['id'])
-	# Add toppings to listbox
-  for item in data:
-	  my_list.insert(parent='', index='end', iid=item['id'],text="" ,values=(item['title'],item['author'],"item['genre']","item['platform']",item['price'],item['sale']))
+def create_table(data_array):
 
-def check(e):
-  # grab what was typed
-  typed = my_entry.get()
-	# update our listbox with selected items
-  update(search([typed], filters))				
+  headings = ['Full Name', 'Address', 'Phone Number']
+
+  games_window_layout = [
+      [sg.Table(values=data_array, headings=headings, max_col_width=35,
+                  auto_size_columns=True,
+                  justification='right',
+                  num_rows=10,
+                  key='-TABLE-',
+                  row_height=35,
+                  tooltip='Game Table')]
+  ]
+
+  games_window = sg.Window("Games Window", 
+  games_window_layout, modal=True)
+
+  while True:
+      event, values = games_window.read()
+      if event == "Exit" or event == sg.WIN_CLOSED:
+          break
+      
+  games_window.close()
+
+sg.theme('DarkAmber')   # Add a touch of color
+
+game_information_array = []
 
 
-my_label = Label(root, text="Search for a game...", font=("Helvetica", 14), fg="grey")
-my_label.pack()
-
-my_entry = Entry(root, font=("Helvetica", 14), fg="grey")
-my_entry.pack(pady=20)
 
 
+# All the stuff inside your window.
+layout = [  [sg.Text('Enter the game name'), sg.InputText()],
+            [sg.Button('Ok'), sg.Button('Close')]
+          ]
+
+
+# Create the Window
+window = sg.Window('Indie Games', 
+                    layout,
+                    resizable=True)
+# Event Loop to process "events" and get the "values" of the inputs
+while True:
+    event, values = window.read()
+    if event == sg.WIN_CLOSED or event == 'Close': # if user closes window or clicks cancel
+        break
+    print('You entered ', values[0])
+
+    #TODO : Change the append value with the result of our search with solr, so I suggest a method that creates
+    # an array with the results and sends it to create table
+    game_information_array.append([values[0], 'test', 'HelloWorld'])
+    create_table(game_information_array)
+
+
+
+window.close()
 
 
 
 
 
-my_list = ttk.Treeview(root, height=100)
-my_list['columns'] = ('Title', 'Author', 'Genre', "Platform", "Price", "Sale")
-my_list.pack(pady=20)
 
-my_list.heading("Title", text="Title")
-my_list.heading("Author", text="Author")
-my_list.heading("Genre", text="Genre")
-my_list.heading("Platform", text="Platform")
-my_list.heading("Price", text="Price")
-my_list.heading("Sale", text="Sale")
 
-# Create a binding on the entry box
-my_entry.bind("<Return>", check)
 
-root.mainloop()
+
+
