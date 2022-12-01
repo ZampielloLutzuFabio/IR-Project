@@ -4,6 +4,7 @@ from urllib.parse import urljoin, urlencode, quote
 import json
 from venv import create
 import PySimpleGUI as sg
+import textwrap
 
 
 
@@ -90,10 +91,9 @@ def create_table(data_array):
   games_window_layout = [
       [sg.Table(values=data_array, headings=headings, max_col_width=35,
                   auto_size_columns=True,
-                  justification='right',
-                  num_rows=20,
+                  justification='left',
+                  num_rows=1000,
                   key='-TABLE-',
-                  row_height=35,
                   tooltip='Indie Game Search')]
   ]
 
@@ -121,7 +121,8 @@ layout = [  [sg.Text('Enter the game name'), sg.InputText()],
 # Create the Window
 window = sg.Window('Indie Games', 
                     layout,
-                    resizable=True)
+                    resizable=True,
+                    size=(800, 900))
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
@@ -133,7 +134,8 @@ while True:
     for i in search_result:
       del i['id']
       del i['_version_']
-      game_information_array.append([''.join(i['title']), ''.join(i['author']), ''.join(i['genre']), i['platform'],i['price'], i['sale'], i['href']])
+      print(i)
+      game_information_array.append([textwrap.fill(''.join(i['title'])), textwrap.fill(''.join(i['author'])), textwrap.fill(','.join(i['genre']), width=45), textwrap.fill(','.join(i['platform'])), i['price'], textwrap.fill(''.join(i['sale'])), textwrap.fill(''.join(i['href']))])
     #TODO : Change the append value with the result of our search with solr, so I suggest a method that creates
     # an array with the results and sends it to create table
     create_table(game_information_array)

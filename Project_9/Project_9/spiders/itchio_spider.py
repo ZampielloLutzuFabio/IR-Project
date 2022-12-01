@@ -17,6 +17,10 @@ class ItchioSpider(scrapy.Spider):
             sale = i.css('.sale_tag::text').get()
             if sale is None:
                 sale = '-0%'
+            if genre is None or len(genre) == 0:
+                genre = 'Generic'
+            if platform is None or len(platform) == 0:
+                platform = 'Generic'
             href = i.css('.game_title a::attr(href)').get()
 
             for a in range(len(platform)):
