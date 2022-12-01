@@ -42,9 +42,9 @@ def filter(obj):
 def find(query):
   # + option + ':"' + quote(query) + '"'
   filters = query.pop('filters')
-  url = 'http://localhost:8983/solr/indiegames/query?q=' + quote_custom(query) + filter(filters)
+  url = 'http://localhost:8983/solr/indiegames/query?rows=1000&q=' + quote_custom(query) + filter(filters)
   
-  print(url)
+  #print(url)
   connection = urlopen(url)
   response = json.load(connection)
   # print(response['response']['numFound'], "documents found.")
@@ -65,9 +65,9 @@ def search(query_array, query_filters):
       result.append(k)
     total_num += int(response['response']['numFound'])
 
-  print(total_num, "games found.")
-  for doc in result:
-        print("Game =", doc)
+  #print(total_num, "games found.")
+  #for doc in result:
+        #print("Game =", doc)
         
   return result
 
@@ -84,61 +84,64 @@ filters = {
 
 # GUI 
 
-def create_table(data_array):
-
-  headings = ['Title', 'Author', 'Genre', 'Platform', 'Price', 'Sale', 'href']
-
-  games_window_layout = [
-      [sg.Table(values=data_array, headings=headings, max_col_width=35,
-                  auto_size_columns=True,
-                  justification='left',
-                  num_rows=1000,
-                  key='-TABLE-',
-                  tooltip='Indie Game Search')]
-  ]
-
-  games_window = sg.Window("Games Window", 
-  games_window_layout, modal=True)
-
-  while True:
-      event, values = games_window.read()
-      if event == "Exit" or event == sg.WIN_CLOSED:
-          break
-      
-  games_window.close()
 
 sg.theme('DarkAmber')   # Add a touch of color
 
 
+search("game", filters)
 
+headings = ['Title', 'Author', 'Genre', 'Platform', 'Price', 'Sale']
+font = ("Arial", 16)
 
 # All the stuff inside your window.
-layout = [  [sg.Text('Enter the game name'), sg.InputText()],
-            [sg.Button('Ok'), sg.Button('Close')]
+layout = [  [sg.Text('Enter the game name'), sg.InputText(),  sg.Button('Ok', bind_return_key=True), sg.Button('Close')],
+            [sg.Text('Enter filter'), sg.InputText()],
+            [sg.Table(values=[], headings=headings, max_col_width=100,
+                  justification='left',
+                  num_rows=1000,
+                  key='-TABLE-',
+                  row_height=70,
+                  size=(1000, 500),
+                  font=font,
+                  expand_x=True,
+                  col_widths=200
+                  )]
           ]
 
-
+font = ("Arial", 24)
 # Create the Window
 window = sg.Window('Indie Games', 
                     layout,
                     resizable=True,
-                    size=(800, 900))
+                    size=(2000, 1000),
+                    font = font,
+                    element_justification='c'
+                    )
 # Event Loop to process "events" and get the "values" of the inputs
+
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Close': # if user closes window or clicks cancel
-        break
+      break
     print('You entered ', values[0])
-    search_result = search([values[0]], filters)
+    print('You filter ', values[1])
+    array_val = values[0].split('|')
+    search_result = search(array_val, [{values[1]}])
     game_information_array = []
+    print(len(search_result))
     for i in search_result:
       del i['id']
       del i['_version_']
-      print(i)
-      game_information_array.append([textwrap.fill(''.join(i['title'])), textwrap.fill(''.join(i['author'])), textwrap.fill(','.join(i['genre']), width=45), textwrap.fill(','.join(i['platform'])), i['price'], textwrap.fill(''.join(i['sale'])), textwrap.fill(''.join(i['href']))])
+      try:
+        i['genre'] = i['genre'][0:min(5, len(i['genre']))] 
+      except:
+        i['genre'] = 'Generic'
+      game_information_array.append([textwrap.fill(''.join(i['title']), width=45), textwrap.fill(''.join(i['author']), width=45), textwrap.fill(','.join(i['genre']), width=45), textwrap.fill(','.join(i['platform']), width=45), ''.join(i['price']), ''.join(i['sale'])])
     #TODO : Change the append value with the result of our search with solr, so I suggest a method that creates
     # an array with the results and sends it to create table
-    create_table(game_information_array)
+
+    window['-TABLE-'].update(game_information_array)
+
 
 
 
