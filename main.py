@@ -85,16 +85,16 @@ filters = {
 
 def create_table(data_array):
 
-  headings = ['Full Name', 'Address', 'Phone Number']
+  headings = ['Title', 'Author', 'Genre', 'Platform', 'Price', 'Sale', 'href']
 
   games_window_layout = [
       [sg.Table(values=data_array, headings=headings, max_col_width=35,
                   auto_size_columns=True,
                   justification='right',
-                  num_rows=10,
+                  num_rows=20,
                   key='-TABLE-',
                   row_height=35,
-                  tooltip='Game Table')]
+                  tooltip='Indie Game Search')]
   ]
 
   games_window = sg.Window("Games Window", 
@@ -108,8 +108,6 @@ def create_table(data_array):
   games_window.close()
 
 sg.theme('DarkAmber')   # Add a touch of color
-
-game_information_array = []
 
 
 
@@ -130,10 +128,14 @@ while True:
     if event == sg.WIN_CLOSED or event == 'Close': # if user closes window or clicks cancel
         break
     print('You entered ', values[0])
-
+    search_result = search([values[0]], filters)
+    game_information_array = []
+    for i in search_result:
+      del i['id']
+      del i['_version_']
+      game_information_array.append([''.join(i['title']), ''.join(i['author']), ''.join(i['genre']), i['platform'],i['price'], i['sale'], i['href']])
     #TODO : Change the append value with the result of our search with solr, so I suggest a method that creates
     # an array with the results and sends it to create table
-    game_information_array.append([values[0], 'test', 'HelloWorld'])
     create_table(game_information_array)
 
 
