@@ -139,7 +139,8 @@ layout = [
             size=(1000, 500),
             font=font,
             enable_events=True,
-            row_colors=()
+            row_colors=(),
+            expand_x=True
         )
     ],
 ]
@@ -157,7 +158,7 @@ window = sg.Window(
 )
 
 window.FindElement('-TABLE-').AlternatingRowColor=[('#223F5D')]
-window.Maximize()
+# window.Maximize()
 # Event Loop to process "events" and get the "values" of the inputs
 col_widths = [300, 300, 300, 250, 150, 530]
 table_widget = window['-TABLE-'].widget
