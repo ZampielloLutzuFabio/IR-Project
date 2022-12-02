@@ -5,12 +5,13 @@ class SteamSpider(scrapy.Spider):
         item = response.meta['item']
 
         if item['sale'] is not None:
-            item['price'] = response.css('.discount_final_price::text').get().strip()
+            item['price'] = response.css('.discount_final_price::text').get()
         else:
-            item['price'] = response.css('.game_purchase_price.price::text').get().strip()
+            item['price'] = response.css('.game_purchase_price.price::text').get()
 
         if item['price'] is None:
             item['price'] = 'free'
+        item['price'].strip()
 
         item['author'] = response.css('.dev_row a::text').get()
         item['genre'] = response.css(".popular_tags a::text").getall()
@@ -18,6 +19,9 @@ class SteamSpider(scrapy.Spider):
             item['genre'][i] = item['genre'][i].strip()
 
         item['genre'].remove("Indie")
+
+        item['description'] = response.css('.game_description_snippet::text').get() or "DLC"
+        item['description'] = item['description'].strip()
         return item
     
     name = 'steam_spider'

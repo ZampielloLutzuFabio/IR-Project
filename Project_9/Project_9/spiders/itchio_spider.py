@@ -19,12 +19,15 @@ class ItchioSpider(scrapy.Spider):
                 sale = '-0%'
             if genre is None or len(genre) == 0:
                 genre = 'Generic'
-            if platform is None or len(platform) == 0:
-                platform = 'Generic'
             href = i.css('.game_title a::attr(href)').get()
 
             for a in range(len(platform)):
                 platform[a] = platform[a].replace("Download for ", "")
+
+            if platform is None or len(platform) == 0:
+                platform = 'Generic'
+
+            description = i.css('.game_text::text').get() or 'No description'
 
             yield{
                 'title': title,
@@ -33,7 +36,8 @@ class ItchioSpider(scrapy.Spider):
                 'platform': platform,
                 'price' : price,
                 'sale' : sale,
-                'href': href
+                'href': href,
+                'description': description
             }
 
         self.page += 1
