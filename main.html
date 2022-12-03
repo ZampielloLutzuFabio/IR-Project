@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+    
+</head>
+<body>
+    <input type="text" placeholder="Search.." id="searchGame">
+    <button onclick="search()"> Search </button>
+    <input type="text" placeholder="Search.." id="genreFilter">
+    <input type="text" placeholder="Search.." id="priceFilter">
+    <input type="text" placeholder="Search.." id="saleFilter">
+    <input type="text" placeholder="Search.." id="authorFilter">
+    <input type="text" placeholder="Search.." id="platformFilter">
+
+    <script>
+        function quote(obj) {
+            var return_val = '';
+            var firstElem = true;
+
+            for (const [key, value] of Object.entries(obj)) {
+                if (value != "*") {
+                    if (firstElem) {
+                        return_val += "(" + key + ':"' + value + '")';
+                        firstElem = false
+                    } else {
+                        val += "OR(" + key + ':"' + value + '")'
+                    }
+                } else {
+                    if (firstElem) {
+                        return_val += "(" + key + ':' + value + ')';
+                        firstElem = false
+                    } else {
+                        val += "OR(" + key + ':' + value + ')'
+                    }
+                }
+            }
+
+        }
+
+
+        function search() {
+            var query = document.getElementById('searchGame').value;
+            console.log(query)
+        }
+    </script>
+    
+</body>
+</html>

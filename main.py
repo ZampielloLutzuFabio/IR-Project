@@ -4,8 +4,12 @@ import json
 import PySimpleGUI as sg
 import textwrap
 import webbrowser
+from tkinter import *
+from tkinter import ttk
 
-
+class color:
+   BOLD = '\033[1m'
+   END = '\033[0m'
 def quote_custom(obj):
 
     val = "(("
@@ -165,7 +169,7 @@ col_widths = [300, 300, 300, 250, 150, 530]
 table_widget = window['-TABLE-'].widget
 
 for cid, width in zip(headings, col_widths):    # Set width for each column
-      table_widget.column(cid, width=width)
+      table_widget.column(cid, width=width)      
 
 table_widget.pack_forget()
 
@@ -215,9 +219,7 @@ while True:
     search_result = search(array_val, filters)
     game_information_array = []
     game_hrefs = []
-
     for i in search_result:
-        # index = 0
         try:
             i["genre"] = i["genre"][0 : min(5, len(i["genre"]))]
         except:
@@ -230,8 +232,6 @@ while True:
                 textwrap.fill(",".join(i["platform"]), width=30),
                 "".join(i["price"]) + " {" + "".join(i["sale"]) + "}",
                 textwrap.fill(",".join(i["description"]), width=50),
-                # sg.Text(textwrap.fill(",".join(i["description"]), width=50), key='-FOUTPUT-'+str(index))
-                
             ]
         )
         # game_information_array.append([i['description'], '', '', '', '', ''])
