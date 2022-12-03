@@ -92,6 +92,7 @@ sg.theme("DarkBlue")  # Add a touch of color
 
 headings = ["Title", "Author", "Genre", "Platform", "Price {Sale}", "Description"]
 font = ("Arial", 16)
+font_bold=('Arial', 16, 'bold')
 
 game_information_array = []
 game_hrefs = []
@@ -157,7 +158,7 @@ window = sg.Window(
     finalize=True
 )
 
-window.FindElement('-TABLE-').AlternatingRowColor=[('#223F5D')]
+window['-TABLE-'].AlternatingRowColor=[('#223F5D')]
 # window.Maximize()
 # Event Loop to process "events" and get the "values" of the inputs
 col_widths = [300, 300, 300, 250, 150, 530]
@@ -172,8 +173,12 @@ table_widget.pack(side='left', fill='both', expand=True)
 
 while True:
     event, values = window.read()
-    if event == "-TABLE-":
-        webbrowser.open(game_hrefs[values[event][0]][0])
+    
+    if event == "-TABLE-" and values[event] is not None:
+        if len(values[event]) != 0:
+            webbrowser.open(game_hrefs[values[event][0]][0])
+            
+    
     # elif event == "HIDE_FILTERS":
     #     isHidden = window["genre_filter_text"].visible
 
@@ -212,6 +217,7 @@ while True:
     game_hrefs = []
 
     for i in search_result:
+        # index = 0
         try:
             i["genre"] = i["genre"][0 : min(5, len(i["genre"]))]
         except:
@@ -224,10 +230,14 @@ while True:
                 textwrap.fill(",".join(i["platform"]), width=30),
                 "".join(i["price"]) + " {" + "".join(i["sale"]) + "}",
                 textwrap.fill(",".join(i["description"]), width=50),
+                # sg.Text(textwrap.fill(",".join(i["description"]), width=50), key='-FOUTPUT-'+str(index))
+                
             ]
         )
         # game_information_array.append([i['description'], '', '', '', '', ''])
         game_hrefs.append(i["href"])
+        
+        # window['-FOUTPUT-'+str(index)].Update(font=font_bold)
 
     if len(game_information_array) == 0:
       game_information_array.append([textwrap.fill('No Results Were Found', width=30), '', '', '', '', ''])
