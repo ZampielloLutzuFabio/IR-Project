@@ -1,52 +1,41 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Document</title>
-    
+    <title>Indie Game Search</title>
+
 </head>
 <body>
     <input type="text" placeholder="Search.." id="searchGame">
-    <button onclick="search()"> Search </button>
-    <input type="text" placeholder="Search.." id="genreFilter">
-    <input type="text" placeholder="Search.." id="priceFilter">
-    <input type="text" placeholder="Search.." id="saleFilter">
-    <input type="text" placeholder="Search.." id="authorFilter">
-    <input type="text" placeholder="Search.." id="platformFilter">
+    <button onclick="search()" id="searchButton"> Search </button>
+    <input class="filter" type="text" placeholder="Genre" id="genreFilter">
+    <input class="filter" type="text" placeholder="Price" id="priceFilter">
+    <input class="filter" type="text" placeholder="Sale" id="saleFilter">
+    <input class="filter" type="text" placeholder="Author" id="authorFilter">
+    <input class="filter" type="text" placeholder="Platform" id="platformFilter">
+    <button onclick="toggleFilters()">Hide/Show Filter fields</button>
 
-    <script>
-        function quote(obj) {
-            var return_val = '';
-            var firstElem = true;
+    <table>
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Author</td>
+                <td>Genre</td>
+                <td>Platform</td>
+                <td>Price</td>
+                <td>Sale</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tbody>
 
-            for (const [key, value] of Object.entries(obj)) {
-                if (value != "*") {
-                    if (firstElem) {
-                        return_val += "(" + key + ':"' + value + '")';
-                        firstElem = false
-                    } else {
-                        val += "OR(" + key + ':"' + value + '")'
-                    }
-                } else {
-                    if (firstElem) {
-                        return_val += "(" + key + ':' + value + ')';
-                        firstElem = false
-                    } else {
-                        val += "OR(" + key + ':' + value + ')'
-                    }
-                }
-            }
-
-        }
+        </tbody>
+    </table>
 
 
-        function search() {
-            var query = document.getElementById('searchGame').value;
-            console.log(query)
-        }
-    </script>
-    
+    <script src="main.js"></script>
+
 </body>
+
 </html>

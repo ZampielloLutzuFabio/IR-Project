@@ -4,7 +4,7 @@ class SteamSpider(scrapy.Spider):
     def parse_inside(self, response):
         item = response.meta['item']
 
-        if item['sale'] is not None:
+        if item['sale'] != "-0%":
             item['price'] = response.css('.discount_final_price::text').get()
         else:
             item['price'] = response.css('.game_purchase_price.price::text').get()
