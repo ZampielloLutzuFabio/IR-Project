@@ -14,7 +14,7 @@ class GogSpider(scrapy.Spider):
         for i in range(len(item['platform'])):
             item['platform'][i] = item['platform'][i].split(' ')[2].replace('productcard-os-support__system--', '').replace("windows", "Windows").replace("osx", "macOS").replace("linux", "Linux")
 
-        item['description'] = ' '.join(response.css('.description::text').getall()).strip()[:100] + '...'
+        item['description'] = ' '.join(response.css('.description::text,.description *::text').getall()).strip()[:100] + '...'
 
         return item
 
