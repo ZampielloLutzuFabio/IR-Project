@@ -34,7 +34,7 @@ h1 {
   padding-bottom: 0;
 }
 
-.container td {
+.container td, div#tutorial {
   font-weight: normal;
   font-size: 1em;
   -webkit-box-shadow: 0 2px 2px -2px #0E1119;
@@ -42,9 +42,10 @@ h1 {
   box-shadow: 0 2px 2px -2px #0E1119;
 }
 
+
 .container {
   text-align: left;
-  overflow: hidden;
+  overflow: hidden; 
   width: 100%;
   margin: 0 auto;
   display: table;
@@ -69,8 +70,16 @@ h1 {
   background-color: #1F2739;
 }
 
-.container td:first-child {
-  color: #FB667A;
+.container td:first-child, div#tutorial {
+  color: hsl(352, 95%, 69%);
+}
+
+div#tutorial {
+  font-size: 18px;
+  font-weight: bold;
+  justify-self: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .container tr:hover {
@@ -97,4 +106,43 @@ h1 {
   .container th:nth-child(4) {
     display: none;
   }
+}
+
+
+input,
+input[type="radio"] + label,
+input[type="checkbox"] + label:before,
+select option,
+select {
+  padding: 1em;
+  line-height: 1.4;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  -webkit-transition: 0.35s ease-in-out;
+  -moz-transition: 0.35s ease-in-out;
+  -o-transition: 0.35s ease-in-out;
+  transition: 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+
+
+input#searchGame, button#searchButton {
+ justify-self: center;
+}
+
+input.filter, button#filterButton {
+  justify-self: center;
+}
+
+button {
+	font: inherit;
+	font-size: 0.75rem;
+	padding: 1em;
+	font-weight: 500;
+	background-color: #6658d3;
+	border-radius: 6px;
+	color: #FFF;
+	border: 0;
+
 }

@@ -6,32 +6,58 @@
     <title>Indie Game Search</title>
 
 </head>
+
 <body>
-    <input title="Use ',' to separate searches" type="text" placeholder="Search.." id="searchGame" >
-    <button onclick="search()" id="searchButton"> Search </button>
-    <input class="filter" type="text" placeholder="Genre" id="genreFilter">
-    <input class="filter" type="text" placeholder="Price" id="priceFilter">
-    <input class="filter" type="text" placeholder="Sale" id="saleFilter">
-    <input class="filter" type="text" placeholder="Author" id="authorFilter">
-    <input class="filter" type="text" placeholder="Platform" id="platformFilter">
-    <button onclick="toggleFilters()">Hide/Show Filter fields</button>
+    <div style="position: sticky; top: 0; background-color: #1F2739; padding-bottom: 10px; padding-top: 10px;">
+        <center>
+            <input title="Use ',' to separate searches" type="text" placeholder="Search.." id="searchGame">
+            <button onclick="search()" id="searchButton"> Search </button>
+            <br><br>
+            <input class="filter" type="text" placeholder="Genre" id="genreFilter">
+            <input class="filter" type="text" placeholder="Price" id="priceFilter">
+            <input class="filter" type="text" placeholder="Sale" id="saleFilter">
+            <input class="filter" type="text" placeholder="Author" id="authorFilter">
+            <input class="filter" type="text" placeholder="Platform" id="platformFilter">
+            <button id="filterButton" onclick="toggleFilters()">Hide/Show Filter fields</button>
+        </center>
+    </div>
+    <br>
 
     <div id="tutorial">
-        Welcome to our Indie game search engine. Use commas to seperate and seach for many things at once. You can 
-        search for title, genre, platform and developer. We also have filters for more specific searching. They are also seperated by commas,
-        so that you can filter by many words at once.
+        <p>
+            Welcome to our Indie game search engine! <br>
+            Use commas to seperate and seach for many things at once. <br>
+            You can search for title, genre, platform and developer.<br>
+            We also have filters for more specific searching. <br>
+            They are also seperated by commas,
+            so that you can filter by many words at once.
+        </p>
     </div>
 
     <table style="display: none;" class="container">
         <thead>
             <tr>
-                <td><h1>Title</h1></td>
-                <td><h1>Author</h1></td>
-                <td><h1>Genre</h1></td>
-                <td><h1>Platform</h1></td>
-                <td><h1>Price</h1></td>
-                <td><h1>Sale</h1></td>
-                <td><h1>Description</h1></td>
+                <td>
+                    <h1>Title</h1>
+                </td>
+                <td>
+                    <h1>Author</h1>
+                </td>
+                <td>
+                    <h1>Genre</h1>
+                </td>
+                <td>
+                    <h1>Platform</h1>
+                </td>
+                <td>
+                    <h1>Price</h1>
+                </td>
+                <td>
+                    <h1>Sale</h1>
+                </td>
+                <td>
+                    <h1>Description</h1>
+                </td>
             </tr>
         </thead>
         <tbody>

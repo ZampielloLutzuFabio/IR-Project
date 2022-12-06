@@ -63,6 +63,9 @@ function openLink(url) {
 }
 
 function populate_table(array, query) {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    
     var table = document.querySelector('table');
     var tutorialBox = document.querySelector('#tutorial');
     var tableBody = document.querySelector('tbody');
