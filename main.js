@@ -107,7 +107,7 @@ function populate_table(array, query) {
 
     if (t.length == 0) {
         t += "<tr>";
-        t += "<td colspan='7'>No Results Were Found</td>";
+        t += "<td colspan='7' id='no_results'>No Results Were Found</td>";
         t += "</tr>";
     }
 

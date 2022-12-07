@@ -47,6 +47,9 @@ div#tutorial {
   box-shadow: 0 2px 2px -2px #0E1119;
 }
 
+table:has(#no_results) td {
+  width: 100%;
+}
 
 .container {
   text-align: left;
@@ -108,15 +111,6 @@ div#tutorial {
   transition-property: all;
   transition-timing-function: line;
 }
-
-@media (max-width: 800px) {
-
-  .container td:nth-child(4),
-  .container th:nth-child(4) {
-    display: none;
-  }
-}
-
 
 input,
 input[type="radio"] + label,
