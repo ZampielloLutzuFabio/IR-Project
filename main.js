@@ -71,7 +71,6 @@ function openLink(url) {
 }
 
 function populate_table(array, query) {
-    console.log('before ', array);
 
     var irr_arr = JSON.parse(localStorage.getItem('irrelevant'));
     var rel_arr = JSON.parse(localStorage.getItem('relevant'));
@@ -102,10 +101,6 @@ function populate_table(array, query) {
     for (var i = 0; i < tmp_rel.length; i++){ 
         array.unshift(tmp_rel[i]);
     }
-
-
-
-    console.log('after ', array);
 
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
@@ -179,7 +174,6 @@ function populate_table(array, query) {
 }
 
 function make_relevant(id) {
-    console.log(`make relevant ${id}`);
 
     var irr_arr = JSON.parse(localStorage.getItem('irrelevant'));
     if (irr_arr.indexOf(id) > -1) {
@@ -204,7 +198,6 @@ function make_relevant(id) {
 }
 
 function make_irrelevant(id) {
-    console.log('make irrelevant ' + id);
 
     var tableBody = document.querySelector('tbody');
     var tableRowHTML = document.getElementById(id).innerHTML;
@@ -258,8 +251,6 @@ function search() {
     }
 
     url += encodeURI(quote(obj) + quote_filter(filter));
-
-    console.log(url);
 
     fetch(url, {
         method: "GET",
