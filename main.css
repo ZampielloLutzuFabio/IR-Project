@@ -78,10 +78,6 @@ table:has(#no_results) td {
   background-color: #1F2739;
 }
 
-.container td:first-child, div#tutorial {
-  color: hsl(352, 95%, 69%);
-}
-
 div#tutorial {
   font-size: 18px;
   font-weight: bold;
@@ -104,12 +100,6 @@ div#tutorial {
 .container td:hover {
   background-color: #FFF842;
   color: #403E10;
-  font-weight: bold;
-
-  transition-delay: 0s;
-  transition-duration: 0.4s;
-  transition-property: all;
-  transition-timing-function: line;
 }
 
 input,
@@ -148,4 +138,20 @@ button {
 	color: #FFF;
 	border: 0;
 
+}
+
+td button {
+  font-size: 1.5rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.relevant {
+  color: lightgreen !important;
+}
+
+.irrelevant {
+  color: red !important;
 }
